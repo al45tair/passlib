@@ -2,31 +2,29 @@ language: go
 
 jobs:
   include:
+    # 64-bit ARM
     - os: linux
       go: 1.15
       arch: arm64
       env:
         - GO111MODULE=on
       script:
-        # Install multilibs so we have 32-bit support
-        - sudo apt-get install -qq --force-yes gcc-multilib
-        # 64-bit build
-        - go build
-        - go test
-        # 32-bit build
-        - GOARCH=arm go build
-        - GOARCH=arm go test
+        - go build && go test
+    # 32-bit ARM
+    - os: linux
+      go: 1.15
+      arch: arm64
+      env:
+        - GO111MODULE=on
+        - GOARCH=arm
+      script:
+        - go build && go test
+    # 64-bit x86
     - os: linux
       go: 1.15
       arch: amd64
       env:
         - GO111MODULE=on
       script:
-        # Install multilibs so we have 32-bit support
-        - sudo apt-get install -qq --force-yes gcc-multilib
         # 64-bit build
-        - go build
-        - go test
-        # 32-bit build
-        - GOARCH=386 go build
-        - GOARCH=386 go test
+        - go build && go test
