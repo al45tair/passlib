@@ -16,9 +16,8 @@ jobs:
       arch: arm64
       env:
         - GO111MODULE=on
-        - GOARCH=arm
       script:
-        - go build && go test
+        - GOARCH=arm go build && GOARCH=arm go test
     # 64-bit x86
     - os: linux
       go: 1.15
