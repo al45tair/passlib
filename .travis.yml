@@ -1,8 +1,32 @@
 language: go
-os:
-  - linux
-env:
-  - GO111MODULE=on
-go:
-  - 1.14
-  - tip
+
+jobs:
+  include:
+    - os: linux
+      go: 1.15
+      arch: arm64
+      env:
+        - GO111MODULE=on
+      script:
+        # Install multilibs so we have 32-bit support
+        - sudo apt-get install -qq --force-yes gcc-multilib
+        # 64-bit build
+        - go build
+        - go test
+        # 32-bit build
+        - GOARCH=arm go build
+        - GOARCH=arm go test
+    - os: linux
+      go: 1.15
+      arch: amd64
+      env:
+        - GO111MODULE=on
+      script:
+        # Install multilibs so we have 32-bit support
+        - sudo apt-get install -qq --force-yes gcc-multilib
+        # 64-bit build
+        - go build
+        - go test
+        # 32-bit build
+        - GOARCH=386 go build
+        - GOARCH=386 go test
