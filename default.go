@@ -26,6 +26,41 @@ const Defaults20180601 = "20180601"
 // when future versions of passlib are released. See func UseDefaults.
 const DefaultsLatest = "latest"
 
+// Scheme names
+var schemes = map[string]abstract.Scheme{
+	"argon2":        argon2.Crypter,
+	"scrypt-sha256": scrypt.SHA256Crypter,
+	"sha256-crypt":  sha2crypt.Crypter256,
+	"sha512-crypt":  sha2crypt.Crypter512,
+	"bcrypt":        bcrypt.Crypter,
+	"bcrypt-sha256": bcryptsha256.Crypter,
+	"pbkdf2-sha256": pbkdf2.SHA256Crypter,
+	"pbkdf2-sha512": pbkdf2.SHA512Crypter,
+	"pbkdr2-sha1":   pbkdf2.SHA1Crypter,
+}
+
+// Convert a scheme name into a scheme
+func SchemeFromName(schemeName string) abstract.Scheme {
+	scheme, ok := schemes[schemeName]
+	if !ok {
+		return nil
+	}
+	return scheme
+}
+
+// Convert a list of scheme names into a list of schemes
+func SchemesFromNames(schemeNames []string) ([]abstract.Scheme, error) {
+	result := make([]abstract.Scheme, len(schemeNames))
+	for n, schemeName := range schemeNames {
+		scheme, ok := schemes[schemeName]
+		if !ok {
+			return nil, fmt.Errorf("unknown scheme %q", schemeName)
+		}
+		result[n] = scheme
+	}
+	return result, nil
+}
+
 // Default schemes as of 2016-09-22.
 var defaultSchemes20160922 = []abstract.Scheme{
 	scrypt.SHA256Crypter,
@@ -137,5 +172,16 @@ func UseDefaults(date string) error {
 	}
 
 	DefaultSchemes = defaultSchemes20160922
+	return nil
+}
+
+// Set the default schemes using a list of scheme names, rather than a date
+func UseDefaultSchemes(schemeNames []string) error {
+	schemes, err := SchemesFromNames(schemeNames)
+	if err != nil {
+		return err
+	}
+
+	DefaultSchemes = schemes
 	return nil
 }
