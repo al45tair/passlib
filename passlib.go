@@ -13,11 +13,11 @@
 //   passlib.UseDefaults(passlib.Defaults20180601)
 //
 // See func UseDefaults for details.
-package passlib // import "gopkg.in/hlandau/passlib.v1"
+package passlib // import "github.com/al45tair/passlib"
 
 import (
 	"gopkg.in/hlandau/easymetric.v1/cexp"
-	"gopkg.in/hlandau/passlib.v1/abstract"
+	"github.com/al45tair/passlib/abstract"
 )
 
 var cHashCalls = cexp.NewCounter("passlib.ctx.hashCalls")

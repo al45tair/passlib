@@ -1,7 +1,7 @@
 passlib for go
 ==============
 
-[![GoDoc](https://godoc.org/gopkg.in/hlandau/passlib.v1?status.svg)](https://godoc.org/gopkg.in/hlandau/passlib.v1) [![Build Status](https://travis-ci.org/hlandau/passlib.svg?branch=master)](https://travis-ci.org/hlandau/passlib)
+[![GoDoc](https://godoc.org/github.com/al45tair/passlib?status.svg)](https://godoc.org/github.com/al45tair/passlib) [![Build Status](https://travis-ci.org/al45tair/passlib.svg?branch=master)](https://travis-ci.org/al45tair/passlib)
 
 [Python's passlib](https://pythonhosted.org/passlib/) is quite an amazing
 library. I'm not sure there's a password library in existence with more thought
@@ -45,7 +45,7 @@ func Verify(password, hash string) (newHash string, err error)
 Here's a rough skeleton of typical usage.
 
 ```go
-import "gopkg.in/hlandau/passlib.v1"
+import "github.com/al45tair/passlib"
 
 func RegisterUser() {
   (...)
@@ -94,8 +94,9 @@ Since scrypt does not have a pre-existing modular crypt format standard, I made 
 
 Licence
 -------
-passlib is partially derived from Python's passlib and so maintains its BSD license.
+passlib is partially derived from Python's passlib and so maintains its BSD license.  This version of passlib was forked from Hugo Landau's by Alastair Houghton.
 
-    © 2008-2012 Assurance Technologies LLC.  (Python passlib)  BSD License
-    © 2014 Hugo Landau <hlandau@devever.net>  BSD License
-
+    © 2008-2012 Assurance Technologies LLC.  (Python passlib) - BSD License
+    © 2014 Hugo Landau <hlandau@devever.net> - BSD License
+    © 2020 Alastair Houghton <alastair@alastairs-place.net> - BSD License
+	© 2020 World Programming Limited - BSD License

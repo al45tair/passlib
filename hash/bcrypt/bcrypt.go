@@ -6,7 +6,7 @@
 package bcrypt
 
 import "golang.org/x/crypto/bcrypt"
-import "gopkg.in/hlandau/passlib.v1/abstract"
+import "github.com/al45tair/passlib/abstract"
 import "fmt"
 
 // An implementation of Scheme implementing bcrypt.

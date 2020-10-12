@@ -10,8 +10,8 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"fmt"
-	"gopkg.in/hlandau/passlib.v1/abstract"
-	"gopkg.in/hlandau/passlib.v1/hash/pbkdf2/raw"
+	"github.com/al45tair/passlib/abstract"
+	"github.com/al45tair/passlib/hash/pbkdf2/raw"
 	"hash"
 	"strings"
 )

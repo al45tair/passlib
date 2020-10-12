@@ -3,15 +3,15 @@ package passlib
 import (
 	"testing"
 
-	"gopkg.in/hlandau/passlib.v1/abstract"
-	"gopkg.in/hlandau/passlib.v1/hash/argon2"
-	"gopkg.in/hlandau/passlib.v1/hash/bcrypt"
-	"gopkg.in/hlandau/passlib.v1/hash/bcryptsha256"
-	"gopkg.in/hlandau/passlib.v1/hash/scrypt"
-	"gopkg.in/hlandau/passlib.v1/hash/sha2crypt"
+	"github.com/al45tair/passlib/abstract"
+	"github.com/al45tair/passlib/hash/argon2"
+	"github.com/al45tair/passlib/hash/bcrypt"
+	"github.com/al45tair/passlib/hash/bcryptsha256"
+	"github.com/al45tair/passlib/hash/scrypt"
+	"github.com/al45tair/passlib/hash/sha2crypt"
 )
 
-//import "gopkg.in/hlandau/passlib.v1/hash/scrypt"
+//import "github.com/al45tair/passlib/hash/scrypt"
 
 func TestPasslib(t *testing.T) {
 	for _, scheme := range DefaultSchemes {
