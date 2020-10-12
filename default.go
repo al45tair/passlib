@@ -108,71 +108,35 @@ func init() {
 	DefaultSchemes = defaultSchemes20160922
 }
 
-// It is strongly recommended that you call this function like this before using passlib:
-//
-//   passlib.UseDefaults("YYYYMMDD")
-//
-// where YYYYMMDD is a date. This will be used to select the preferred scheme
-// to use. If you do not call UseDefaults, the preferred scheme (the first item
-// in the default schemes list) current as of 2016-09-22 will always be used,
-// meaning that upgrade will not occur even though better schemes are now
-// available.
-//
-// Note that even if you don't call this function, new schemes will still be
-// added to DefaultSchemes over time as non-initial values (items not at index
-// 0), so servers will always, by default, be able to validate all schemes
-// which passlib supports at any given time.
-//
-// The reason you must call this function is as follows: If passlib is deployed
-// as part of a web application in a multi-server deployment, and passlib is
-// updated, and the new version of that application with the updated passlib is
-// deployed, that upgrade process is unlikely to be instantaneous. Old versions
-// of the web application may continue to run on some servers. If merely
-// upgrading passlib caused password hashes to be upgraded to the newer scheme
-// on login, the older daemons may not be able to validate these passwords and
-// users may have issues logging in. Although this can be ameliorated to some
-// extent by introducing a new scheme to passlib, waiting some months, and only
-// then making this the default, this could still cause issued if passlib is
-// only updated very occasionally.
-//
-// Thus, you should update your call to UseDefaults only when all servers have
-// been upgraded, and it is thus guaranteed that they will all be able to
-// verify the new scheme. Making this value loadable from a configuration file
-// is recommended.
-//
-// If you are using a single-server configuration, you can use the special
-// value "latest" here (or, equivalently, a date far into the future), which
-// will always use the most preferred scheme. This is hazardous in a
-// multi-server environment.
-//
-// The constants beginning 'Defaults' in this package document dates
-// which are meaningful to this function. The constant values they are equal to
-// will never change, so there is no need to use them instead of string
-// literals, although you may if you wish; they are intended mainly as
-// documentation as to the significance of various dates.
-//
-// Example for opting in to the latest set of defaults:
-//
-//   passlib.UseDefaults(passlib.Defaults20180601)
-//
+// It is strongly recommended that you DO NOT use this function, and that
+// you instead always create a passlib.Context and call the methods of that
+// struct, because the latter does not involve global behaviour.
 func UseDefaults(date string) error {
+	schemes, err := DefaultSchemesFromDate(date)
+	if err != nil {
+		return err
+	}
+
+	DefaultSchemes = schemes
+	return nil
+}
+
+// Return the schemes corresponding to the specified date string
+func DefaultSchemesFromDate(date string) ([]abstract.Scheme, error) {
 	if date == "latest" {
-		DefaultSchemes = defaultSchemes20180601
-		return nil
+		return defaultSchemes20180601, nil
 	}
 
 	t, err := time.ParseInLocation("20060102", date, time.UTC)
 	if err != nil {
-		return fmt.Errorf("invalid time string passed to passlib.UseDefaults: %q", date)
+		return nil, fmt.Errorf("invalid time string passed to passlib.UseDefaults: %q", date)
 	}
 
 	if !t.Before(time.Date(2016, 9, 22, 0, 0, 0, 0, time.UTC)) {
-		DefaultSchemes = defaultSchemes20180601
-		return nil
+		return defaultSchemes20180601, nil
 	}
 
-	DefaultSchemes = defaultSchemes20160922
-	return nil
+	return defaultSchemes20160922, nil
 }
 
 // Set the default schemes using a list of scheme names, rather than a date
